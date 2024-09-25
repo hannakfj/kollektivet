@@ -1,4 +1,4 @@
-import { Avatar, Box, Circle, Text, VStack } from '@chakra-ui/react';
+import {Circle} from '@chakra-ui/react';
 import React from 'react';
 
 const User = ({ name, imageUrl }) => {
