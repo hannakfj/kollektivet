@@ -22,14 +22,14 @@ const residents = [
 ];
 
 const areas = ["Bad🚽", "Kjøkken🧼", "Stue💦"];
-const offWeeks = [null, null]; // Represents the week when you are not washing any area
+const offWeeks = [null, null]; // Represents the week when you are not washing 
 
 // Array of images to create a background image grid
 const backgroundImages = [image1, image2, image3, image4, image5, image6];
 
 function App() {
   const [schedules, setSchedules] = useState([]);
-  const [currentWeek, setCurrentWeek] = useState(getDateWeek(new Date()));
+  const currentWeek = getDateWeek(new Date()); // Removed unused setCurrentWeek
 
   const updateSchedules = () => {
     let nextSchedules = [];
@@ -53,7 +53,7 @@ function App() {
 
   useEffect(() => {
     updateSchedules();
-  }, [currentWeek]);
+  }, [updateSchedules]); // Added updateSchedules to the dependency array
 
   return (
     <Box position="relative" minH="100vh">
@@ -65,7 +65,7 @@ function App() {
         height="100vh" // Cover the entire height of the viewport
         opacity={0.5}
       >
-        {/* picture-wall as background to the page, three columns */}
+        {/* picture-wall as background, three columns */}
         <SimpleGrid columns={3} spacing={0} height="100%">
           {backgroundImages.map((src, index) => (
             <Box key={index} overflow="hidden">
@@ -78,7 +78,7 @@ function App() {
       <Container minH="100vh" py={10} centerContent zIndex={1} position="relative">
         <VStack spacing={10} justifyContent="center" alignItems="center" w="100%" color='purple'>
           <Heading as="h1" size="2xl" textAlign="center" mb={6}>
-          🧼💜💃🏼Vaskeliste🫧🌸☀️
+            🧼💜💃🏼Vaskeliste🫧🌸☀️
           </Heading>
 
           {schedules.map((schedule, weekIndex) => (
