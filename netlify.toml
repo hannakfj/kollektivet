@@ -1,9 +1,8 @@
 [build]
-base = "."  # The base directory is the client folder
-command = "npm install && npm run build"
-publish = "build"  # Output of the build command, where Netlify will serve files from
+  command = "CI=false npm run build"
+  publish = "build"
 
 [[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
+  from = "/*"
+  to = "/index.html"
+  status = 200
