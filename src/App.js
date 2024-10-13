@@ -12,6 +12,7 @@ import image3 from './assets/image3.jpg';
 import image4 from './assets/image4.jpg';
 import image5 from './assets/image5.jpg';
 import image6 from './assets/image6.jpg';
+import { generateSchedule } from './schedulingLogic';
 
 const residents = [
   { name: "Julie", imageUrl: imagejulie },
@@ -29,31 +30,17 @@ const backgroundImages = [image1, image2, image3, image4, image5, image6];
 
 function App() {
   const [schedules, setSchedules] = useState([]);
-  const currentWeek = getDateWeek(new Date()); // Removed unused setCurrentWeek
+  const currentWeek = getDateWeek(new Date());
 
   const updateSchedules = () => {
-    let nextSchedules = [];
-
-    for (let weekOffset = 0; weekOffset < 5; weekOffset++) {
-      let weeklySchedule = [];
-      const fullRotation = [...areas, ...offWeeks];
-
-      residents.forEach((resident, index) => {
-        const rotationIndex = (currentWeek + weekOffset + index) % fullRotation.length;
-        const areaOrOff = fullRotation[rotationIndex];
-
-        weeklySchedule.push({ person: resident, area: areaOrOff || "Ingen" });
-      });
-
-      nextSchedules.push(weeklySchedule);
-    }
-
+    // Use the generateSchedule function from schedulingLogic.js
+    const nextSchedules = generateSchedule(currentWeek, residents, areas, offWeeks);
     setSchedules(nextSchedules);
   };
 
   useEffect(() => {
     updateSchedules();
-  }, [updateSchedules]); // Added updateSchedules to the dependency array
+  }, [updateSchedules]);
 
   return (
     <Box position="relative" minH="100vh">
@@ -88,7 +75,7 @@ function App() {
               </Heading>
               <SimpleGrid columns={3} spacing={20} justifyContent="center" alignItems="center">
                 {schedule
-                  .filter(item => item.area !== "Ingen")
+                  .filter(item => item.area !== null)
                   .map((item, index) => (
                     <VStack key={index} spacing={4} justifyContent="center" alignItems="center">
                       <User name={item.person.name} imageUrl={item.person.imageUrl} />
